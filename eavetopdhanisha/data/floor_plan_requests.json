@@ -1,0 +1,18 @@
+[
+    {
+        "form_type": "floor_plan_request",
+        "name": "Ashok Dagdi",
+        "phone": "+918073702741",
+        "email": "as@gmail.com",
+        "action": "view",
+        "unit_info": {
+            "unit": "Unit 006",
+            "bhk": "3 BHK",
+            "area": "1405 sft",
+            "facing": "North",
+            "img": "https:\/\/placehold.co\/600x400\/png?text=3+BHK+1405+sft+North-facing+floor+plan"
+        },
+        "timestamp": "2025-09-09 08:58:11",
+        "ip": "2406:7400:98:8c8e:fc80:fbce:5e6:9f21"
+    }
+]

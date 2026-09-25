@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urban Shelters - Discovering Habitat</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --charcoal: #1c1c1c;
+            --gold: #d8b31d;
+            --gold-light: #f4d03f;
+            --gold-dark: #b8941a;
+            --white: #ffffff;
+        }
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        .bg-charcoal { background-color: var(--charcoal); }
+        .bg-gold { background-color: var(--gold); }
+        .text-gold { color: var(--gold); }
+        .border-gold { border-color: var(--gold); }
+        
+        .gradient-gold {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+        }
+        
+        .gradient-dark {
+            background: linear-gradient(180deg, rgba(28,28,28,0.95) 0%, rgba(28,28,28,0.7) 100%);
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .nav-glass {
+            background: rgba(28, 28, 28, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav-shadow {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .swiper {
+            width: 100%;
+            height: 100vh;
+        }
+        
+        .swiper-slide {
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .swiper-pagination-bullet {
+            background: white;
+            opacity: 0.5;
+        }
+        
+        .swiper-pagination-bullet-active {
+            opacity: 1;
+            background: var(--gold);
+        }
+        
+        .overlay {
+            background: linear-gradient(135deg, rgba(28, 28, 28, 0.8) 0%, rgba(28, 28, 28, 0.5) 100%);
+        }
+        
+        .parallax-bg {
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .status-pill {
+            font-size: 0.75rem;
+            padding: 0.35rem 1rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+            color: var(--charcoal);
+            padding: 12px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-primary:hover:before {
+            left: 100%;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(216, 179, 29, 0.3);
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: var(--gold);
+        }
+        
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .service-card:hover .service-icon {
+            transform: rotate(5deg) scale(1.1);
+        }
+        
+        .project-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            background: white;
+        }
+        
+        .project-card .project-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(28,28,28,0.7) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .pattern-bg {
+            background-color: #ffffff;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d8b31d' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        .testimonial-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+        }
+        
+        .testimonial-card:before {
+            content: '"';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            font-size: 100px;
+            color: var(--gold);
+            opacity: 0.2;
+            font-family: serif;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(216, 179, 29, 0.1);
+        }
+        
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--gold);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .stats-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 w-full nav-glass text-white z-50 transition-all duration-300">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center justify-center">
+    <img src="Images/logo.png" alt="Urban Shelters Logo" class="w-32 h-auto object-contain" />
+</div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#hero" class="hover:text-gold transition duration-300 font-medium">Home</a>
+                    <a href="#about" class="hover:text-gold transition duration-300 font-medium">About</a>
+                    <a href="#services" class="hover:text-gold transition duration-300 font-medium">Services</a>
+                    <a href="#projects" class="hover:text-gold transition duration-300 font-medium">Projects</a>
+                    <a href="#contact" class="hover:text-gold transition duration-300 font-medium">Contact</a>
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t border-gray-700 pt-4">
+                <a href="#hero" class="block py-2 hover:text-gold transition">Home</a>
+                <a href="#about" class="block py-2 hover:text-gold transition">About</a>
+                <a href="#services" class="block py-2 hover:text-gold transition">Services</a>
+                <a href="#projects" class="block py-2 hover:text-gold transition">Projects</a>
+                <a href="#contact" class="block py-2 hover:text-gold transition">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Swiper -->
+    <section id="hero" class="swiper hero-swiper">
+        <div class="swiper-wrapper">
+            <!-- Slide 1 - Construction -->
+            <div class="swiper-slide" style="background-image: url('https://images.unsplash.com/photo-1563166423-482a8c14b2d6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+                <div class="overlay absolute inset-0 flex items-center justify-center">
+                    <div class="text-center text-white px-6" data-aos="fade-up">
+                        <span class="inline-block px-4 py-2 glass-effect rounded-full text-sm mb-6 font-medium">
+                            <i class="fas fa-star text-gold"></i> Excellence in Construction
+                        </span>
+                        <h1 class="text-5xl md:text-7xl font-black mb-6 leading-tight">
+                            Engineering<br><span class="gradient-text">Landmarks</span>
+                        </h1>
+                        <p class="text-xl md:text-2xl mb-10 max-w-3xl mx-auto font-light">
+                            Turnkey construction powered by precision and passion.
+                        </p>
+                        <a href="#services" class="btn-primary">
+                            Our Expertise <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 2 - Real Estate -->
+            <div class="swiper-slide" style="background-image: url('https://plus.unsplash.com/premium_photo-1681691757922-6d8b206abedc?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+                <div class="overlay absolute inset-0 flex items-center justify-center">
+                    <div class="text-center text-white px-6">
+                        <span class="inline-block px-4 py-2 glass-effect rounded-full text-sm mb-6 font-medium">
+                            <i class="fas fa-home text-gold"></i> Premium Living Spaces
+                        </span>
+                        <h1 class="text-5xl md:text-7xl font-black mb-6 leading-tight">
+                            Homes That<br><span class="gradient-text">Inspire</span>
+                        </h1>
+                        <p class="text-xl md:text-2xl mb-10 max-w-3xl mx-auto font-light">
+                            From concept to keys, discover habitats that elevate life.
+                        </p>
+                        <a href="#projects" class="btn-primary">
+                            Explore Projects <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-pagination"></div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 pattern-bg">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div data-aos="fade-right">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1754818700642-8cf121ff76e6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Urban Shelters Office" class="rounded-3xl shadow-2xl w-full">
+                        <div class="absolute -bottom-10 -right-0 w-40 h-40 gradient-gold rounded-3xl floating opacity-20"></div>
+                    </div>
+                </div>
+                <div data-aos="fade-left">
+                    <span class="text-gold font-semibold text-sm uppercase tracking-wider">About Us</span>
+                    <h2 class="text-4xl md:text-5xl font-black mt-4 mb-6">
+                        Building Dreams,<br>Creating <span class="gradient-text">Landmarks</span>
+                    </h2>
+                    <p class="text-gray-600 mb-8 text-lg leading-relaxed">
+                        Urban Shelters is a Bengaluru-based design-build firm redefining what it means to live and work in an urban environment. 
+                        We craft spaces that not only accommodate life, but inspire it—delivering end-to-end construction, property development and project marketing since 2018.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
+    <div class="text-center p-4 rounded-2xl bg-white shadow-lg card-hover">
+        <div class="stats-number text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold">40+</div>
+        <div class="text-sm text-gray-600 font-medium">Projects Delivered</div>
+    </div>
+    <div class="text-center p-4 rounded-2xl bg-white shadow-lg card-hover">
+        <div class="stats-number text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold">253+</div>
+        <div class="text-sm text-gray-600 font-medium">Happy Clients</div>
+    </div>
+    <div class="text-center p-4 rounded-2xl bg-white shadow-lg card-hover">
+        <div class="stats-number text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold">50+</div>
+        <div class="text-sm text-gray-600 font-medium">Developer Partners</div>
+    </div>
+</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vision & Mission Section -->
+    <section id="vision-mission" class="py-24 bg-gradient-to-br from-gray-50 to-gray-100">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="relative group" data-aos="fade-up" data-aos-delay="100">
+                    <div class="absolute inset-0 gradient-gold opacity-10 rounded-3xl transform rotate-3 group-hover:rotate-6 transition-transform"></div>
+                    <div class="relative bg-white p-10 rounded-3xl shadow-xl card-hover">
+                        <div class="w-16 h-16 gradient-gold rounded-2xl flex items-center justify-center mb-6">
+                            <i class="fas fa-eye text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-3xl font-bold mb-4">Our Vision</h3>
+                        <p class="text-gray-600 leading-relaxed">To merge our passion for real estate with cutting-edge technology, creating sustainable landmarks that stand the test of time.</p>
+                    </div>
+                </div>
+                <div class="relative group" data-aos="fade-up" data-aos-delay="200">
+                    <div class="absolute inset-0 gradient-gold opacity-10 rounded-3xl transform -rotate-3 group-hover:-rotate-6 transition-transform"></div>
+                    <div class="relative bg-white p-10 rounded-3xl shadow-xl card-hover">
+                        <div class="w-16 h-16 gradient-gold rounded-2xl flex items-center justify-center mb-6">
+                            <i class="fas fa-bullseye text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-3xl font-bold mb-4">Our Mission</h3>
+                        <p class="text-gray-600 leading-relaxed">To deliver unrivalled construction quality and seamless property experiences, guided by innovation, collaboration, excellence and integrity.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <span class="text-gold font-semibold text-sm uppercase tracking-wider">Our Services</span>
+                <h2 class="text-4xl md:text-5xl font-black mt-4 mb-4">What We <span class="gradient-text">Do</span></h2>
+                <p class="text-gray-600 text-lg">Comprehensive solutions, one trusted partner.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="service-card bg-gradient-to-br from-gray-50 to-white p-8 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 group" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-icon">
+                        <i class="fas fa-hard-hat"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3">Design & Build</h3>
+                    <p class="text-gray-600 mb-4">Residential, commercial and villa projects executed turnkey.</p>
+                    <a href="#" class="text-gold font-semibold group-hover:underline">Learn More →</a>
+                </div>
+                <div class="service-card bg-gradient-to-br from-gray-50 to-white p-8 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 group" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3">Project Marketing</h3>
+                    <p class="text-gray-600 mb-4">Strategic sales & branding for apartments, plots and farmlands.</p>
+                    <a href="#" class="text-gold font-semibold group-hover:underline">Learn More →</a>
+                </div>
+                <div class="service-card bg-gradient-to-br from-gray-50 to-white p-8 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 group" data-aos="fade-up" data-aos-delay="300">
+                    <div class="service-icon">
+                        <i class="fas fa-file-contract"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3">Legal & Documentation</h3>
+                    <p class="text-gray-600 mb-4">RERA, approvals, contracts & due-diligence under one roof.</p>
+                    <a href="#" class="text-gold font-semibold group-hover:underline">Learn More →</a>
+                </div>
+                <div class="service-card bg-gradient-to-br from-gray-50 to-white p-8 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 group" data-aos="fade-up" data-aos-delay="400">
+                    <div class="service-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3">Investment Advisory</h3>
+                    <p class="text-gray-600 mb-4">Data-driven insights for investors & landowners.</p>
+                    <a href="#" class="text-gold font-semibold group-hover:underline">Learn More →</a>
+                </div>
+                <div class="service-card bg-gradient-to-br from-gray-50 to-white p-8 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 group" data-aos="fade-up" data-aos-delay="500">
+                    <div class="service-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3">Sustainability Consulting</h3>
+                    <p class="text-gray-600 mb-4">Green materials, energy modelling, IGBC compliance.</p>
+                    <a href="#" class="text-gold font-semibold group-hover:underline">Learn More →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Loan Calculator Section -->
+    <section id="loan-calculator" class="py-24 bg-gradient-to-br from-gray-900 to-gray-800">
+        <div class="container mx-auto px-6">
+            <div class="max-w-xl mx-auto">
+                <div class="text-center mb-10">
+                    <span class="text-gold font-semibold text-sm uppercase tracking-wider">Financial Tools</span>
+                    <h2 class="text-4xl md:text-5xl font-black mt-4 text-white">EMI <span class="gradient-text">Calculator</span></h2>
+                </div>
+                <div class="glass-effect p-10 rounded-3xl shadow-2xl">
+                    <div class="space-y-6">
+                        <div>
+                            <label for="price" class="block text-sm font-medium text-gray-300 mb-2">Property Price (₹)</label>
+                            <div class="relative">
+                                <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">₹</span>
+                                <input type="number" id="price" aria-label="Property Price" class="w-full pl-10 pr-4 py-3 bg-white/10 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:border-gold transition">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="downpayment" class="block text-sm font-medium text-gray-300 mb-2">Down Payment (₹)</label>
+                            <div class="relative">
+                                <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">₹</span>
+                                <input type="number" id="downpayment" aria-label="Down Payment" class="w-full pl-10 pr-4 py-3 bg-white/10 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:border-gold transition">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="interest" class="block text-sm font-medium text-gray-300 mb-2">Annual Interest Rate (%)</label>
+                            <div class="relative">
+                                <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">%</span>
+                                <input type="number" step="0.1" id="interest" aria-label="Interest Rate" class="w-full pl-10 pr-4 py-3 bg-white/10 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:border-gold transition">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="tenure" class="block text-sm font-medium text-gray-300 mb-2">Loan Tenure (years)</label>
+                            <input type="number" id="tenure" aria-label="Loan Tenure" class="w-full px-4 py-3 bg-white/10 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:border-gold transition">
+                        </div>
+                        <button onclick="calculateEMI()" class="w-full btn-primary">
+                            Calculate EMI <i class="fas fa-calculator ml-2"></i>
+                        </button>
+                        <div id="emi-result" class="text-center p-6 bg-white/10 rounded-xl hidden">
+                            <p class="text-sm text-gray-400 mb-2">Your Monthly EMI</p>
+                            <p class="text-3xl font-bold text-gold"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-24 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <span class="text-gold font-semibold text-sm uppercase tracking-wider">Portfolio</span>
+                <h2 class="text-4xl md:text-5xl font-black mt-4 mb-4">Our <span class="gradient-text">Projects</span></h2>
+            </div>
+            <div class="flex flex-wrap justify-center mb-12 gap-2">
+                <button onclick="filterProjects('All')" class="filter-btn px-6 py-3 gradient-gold text-white rounded-full font-medium transition">All Projects</button>
+                <button onclick="filterProjects('Ongoing')" class="filter-btn px-6 py-3 bg-gray-200 text-gray-700 rounded-full font-medium hover:bg-gray-300 transition">Ongoing</button>
+                <button onclick="filterProjects('Completed')" class="filter-btn px-6 py-3 bg-gray-200 text-gray-700 rounded-full font-medium hover:bg-gray-300 transition">Completed</button>
+                <button onclick="filterProjects('Upcoming')" class="filter-btn px-6 py-3 bg-gray-200 text-gray-700 rounded-full font-medium hover:bg-gray-300 transition">Upcoming</button>
+            </div>
+            <div id="projects-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+                <!-- Projects will be rendered here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Banner Section -->
+    <section id="cta-banner" class="py-24 parallax-bg relative" style="background-image: url('https://picsum.photos/seed/dusk/1920/600');">
+        <div class="absolute inset-0 gradient-dark"></div>
+        <div class="container mx-auto px-6 relative z-10 text-center">
+            <div data-aos="fade-up">
+                <h2 class="text-4xl md:text-5xl font-black text-white mb-6">
+                    Ready to break ground or<br>buy your <span class="gradient-text">dream home?</span>
+                </h2>
+                <p class="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">
+                    Join hundreds of satisfied clients who trusted us with their vision.
+                </p>
+                <a href="#contact" class="btn-primary text-lg">
+                    Book a Free Consultation <i class="fas fa-calendar-check ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <span class="text-gold font-semibold text-sm uppercase tracking-wider">Get in Touch</span>
+                <h2 class="text-4xl md:text-5xl font-black mt-4 mb-4">Contact <span class="gradient-text">Us</span></h2>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="md:col-span-2">
+                    <div class="rounded-3xl overflow-hidden shadow-2xl">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3889.3967296924!2d77.5734!3d12.8823!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDUyJzU2LjMiTiA3N8KwMzQnMjQuMiJF!5e0!3m2!1sen!2sin!4v1234567890"
+                            width="100%" 
+                            height="450" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy">
+                        </iframe>
+                    </div>
+                </div>
+                <div>
+                    <div class="bg-gradient-to-br from-gray-50 to-white p-8 rounded-3xl shadow-xl h-full">
+                        <div class="space-y-6">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-12 h-12 gradient-gold rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-map-marker-alt text-white"></i>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-gray-900">Address</p>
+                                    <p class="text-gray-600">JP Nagar 8th Phase,<br>Bengaluru - 560078</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-4">
+                                <div class="w-12 h-12 gradient-gold rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-phone text-white"></i>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-gray-900">Phone</p>
+                                    <a href="tel:+919906666522" class="text-gold hover:underline">+91-9906666522</a>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-4">
+                                <div class="w-12 h-12 gradient-gold rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-envelope text-white"></i>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-gray-900">Email</p>
+                                    <a href="mailto:info@urbanshelters.co.in" class="text-gold hover:underline">info@urbanshelters.co.in</a>
+                                </div>
+                            </div>
+                            <div class="pt-6 border-t border-gray-200">
+                                <p class="font-semibold text-gray-900 mb-4">Follow Us</p>
+                                <div class="flex space-x-3">
+                                    <a href="#" class="w-10 h-10 gradient-gold rounded-lg flex items-center justify-center text-white hover:scale-110 transition">
+                                        <i class="fab fa-linkedin-in"></i>
+                                    </a>
+                                    <a href="#" class="w-10 h-10 gradient-gold rounded-lg flex items-center justify-center text-white hover:scale-110 transition">
+                                        <i class="fab fa-instagram"></i>
+                                    </a>
+                                    <a href="#" class="w-10 h-10 gradient-gold rounded-lg flex items-center justify-center text-white hover:scale-110 transition">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                    <a href="#" class="w-10 h-10 gradient-gold rounded-lg flex items-center justify-center text-white hover:scale-110 transition">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="gradient-dark text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-10 h-10 gradient-gold rounded-lg flex items-center justify-center">
+                            <i class="fas fa-building text-white"></i>
+                        </div>
+                        <span class="text-xl font-bold">Urban Shelters</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">Discovering habitat, building dreams.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><a href="#about" class="hover:text-gold transition">About Us</a></li>
+                        <li><a href="#services" class="hover:text-gold transition">Services</a></li>
+                        <li><a href="#projects" class="hover:text-gold transition">Projects</a></li>
+                        <li><a href="#contact" class="hover:text-gold transition">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Services</h4>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li>Design & Build</li>
+                        <li>Project Marketing</li>
+                        <li>Legal Services</li>
+                        <li>Investment Advisory</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Newsletter</h4>
+                    <p class="text-gray-400 text-sm mb-4">Subscribe for updates and insights</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="flex-1 px-4 py-2 bg-white/10 border border-gray-700 rounded-l-lg text-white placeholder-gray-500">
+                        <button class="px-4 py-2 gradient-gold rounded-r-lg hover:opacity-90 transition">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 text-sm">© 2024 Urban Shelters. All rights reserved.</p>
+                    <div class="mt-4 md:mt-0 flex space-x-6 text-sm">
+                        <a href="#" class="text-gray-400 hover:text-gold transition">Privacy Policy</a>
+                        <a href="#" class="text-gray-400 hover:text-gold transition">Terms of Service</a>
+                        <a href="#" class="text-gray-400 hover:text-gold transition">Careers</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
+
+       // Projects Data
+const projectsData = [
+    { "id": 1,  "name": "Urban Residency",       "status": "Completed",   "loc": "RR Nagar",                       "img": "Images/Residency.png" },
+    { "id": 2,  "name": "Urban Bliss",           "status": "Completed",   "loc": "JP Nagar 7th Phase",             "img": "Images/Bliss.png" },
+    { "id": 3,  "name": "Urban Breeze",          "status": "Completed",   "loc": "Rachenahalli, Hebbal",           "img": "Images/Breeze.png" },
+    { "id": 4,  "name": "Urban Temple Green",    "status": "Completed",   "loc": "Arehalli, Uttarahalli",          "img": "Images/Temple Green.png" },
+    { "id": 5,  "name": "Urban Dzire",           "status": "Completed",   "loc": "NTI Layout, Koigehalli",         "img": "Images/Dzire.png" },
+    { "id": 6,  "name": "Urban Sapphire",        "status": "Completed",   "loc": "MLA Layout, BG Road",            "img": "Images/Sapphire.png" },
+    { "id": 7,  "name": "Urban Orchid",          "status": "Completed",   "loc": "JP Nagar 6th Phase",             "img": "Images/Orchid.png" },
+    { "id": 8,  "name": "Urban Tulip",           "status": "Completed",   "loc": "JP Nagar 6th Phase",             "img": "Images/Tulip.png" },
+    { "id": 9,  "name": "Urban Mangolia",        "status": "Completed",   "loc": "JP Nagar 6th Phase",             "img": "Images/Mangolia.png" },
+    { "id": 10, "name": "Urban Temple Bells",    "status": "Completed",   "loc": "Maruthi Layout, Vasanthpura",    "img": "Images/Temple Bells.png" },
+    { "id": 11, "name": "Urban Iris",            "status": "Completed",   "loc": "JP Nagar 6th Phase",             "img": "Images/Iris.png" },
+    { "id": 12, "name": "Urban Parkview",        "status": "Completed",   "loc": "Jayanagar 1st Block",            "img": "Images/Parkview.png" },
+];
+
+        // Initialize Swiper
+        const swiper = new Swiper('.hero-swiper', {
+            loop: true,
+            autoplay: {
+                delay: 6000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            effect: 'fade',
+            fadeEffect: {
+                crossFade: true
+            }
+        });
+
+        // Sticky Nav Shadow
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('nav-shadow');
+            } else {
+                navbar.classList.remove('nav-shadow');
+            }
+        });
+
+        // Mobile Menu Toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Smooth Scroll for Nav Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const mobileMenu = document.getElementById('mobile-menu');
+                    mobileMenu.classList.add('hidden');
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // EMI Calculator
+        function calculateEMI() {
+            const price = parseFloat(document.getElementById('price').value);
+            const downPayment = parseFloat(document.getElementById('downpayment').value);
+            const interestRate = parseFloat(document.getElementById('interest').value);
+            const tenure = parseFloat(document.getElementById('tenure').value);
+
+            const resultDiv = document.getElementById('emi-result');
+            
+            if (!price || !downPayment || !interestRate || !tenure) {
+                resultDiv.querySelector('p:last-child').textContent = 'Please fill all fields';
+                resultDiv.classList.remove('hidden');
+                return;
+            }
+
+            const P = price - downPayment;
+            const r = interestRate / 12 / 100;
+            const n = tenure * 12;
+            
+            const EMI = (P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+            
+            resultDiv.querySelector('p:last-child').textContent = `₹${EMI.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+            resultDiv.classList.remove('hidden');
+        }
+
+        // Render Projects
+        function renderProjects(filter = 'All') {
+            const grid = document.getElementById('projects-grid');
+            grid.innerHTML = '';
+            
+            const filtered = filter === 'All' ? projectsData : projectsData.filter(p => p.status === filter);
+            
+            filtered.forEach((project, index) => {
+                const statusColor = project.status === 'Completed' ? 'bg-green-500' : 
+                                  project.status === 'Ongoing' ? 'bg-blue-500' : 'bg-amber-500';
+                
+                const card = `
+                    <div class="project-card card-hover" data-aos="fade-up" data-aos-delay="${index * 100}">
+                        <div class="relative overflow-hidden rounded-t-3xl">
+                            <img src="${project.img}" alt="${project.name}" class="w-full h-56 object-cover transform hover:scale-110 transition duration-500">
+                            <div class="project-overlay flex items-end p-6">
+                                <button class="btn-primary py-2 px-6 text-sm">View Details</button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-bold">${project.name}</h3>
+                                <span class="status-pill ${statusColor} text-white">${project.status}</span>
+                            </div>
+                            <p class="text-gray-600 flex items-center">
+                                <i class="fas fa-map-marker-alt text-gold mr-2"></i> ${project.loc}
+                            </p>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += card;
+            });
+            
+            // Reinitialize AOS for new elements
+            AOS.refresh();
+        }
+
+        // Filter Projects
+        function filterProjects(status) {
+            renderProjects(status);
+            
+            // Update button styles
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('gradient-gold', 'text-white');
+                btn.classList.add('bg-gray-200', 'text-gray-700');
+            });
+            event.target.classList.remove('bg-gray-200', 'text-gray-700');
+            event.target.classList.add('gradient-gold', 'text-white');
+        }
+
+        // Initial render
+        renderProjects();
+
+        // Counter Animation
+        function animateCounter(element, target, duration = 2000) {
+            let start = 0;
+            const increment = target / (duration / 16);
+            const timer = setInterval(() => {
+                start += increment;
+                if (start >= target) {
+                    element.textContent = target + '+';
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(start) + '+';
+                }
+            }, 16);
+        }
+
+        // Intersection Observer for counter animation
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px'
+        };
+
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counters = entry.target.querySelectorAll('.stats-number');
+                    counters.forEach(counter => {
+                        const target = parseInt(counter.textContent);
+                        animateCounter(counter, target);
+                    });
+                    counterObserver.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Observe the about section for counter animation
+        const aboutSection = document.querySelector('#about');
+        if (aboutSection) {
+            counterObserver.observe(aboutSection);
+        }
+    </script>
+</body>
+</html>
